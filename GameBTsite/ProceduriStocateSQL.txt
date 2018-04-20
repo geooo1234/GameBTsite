@@ -1,0 +1,134 @@
+/****** Object:  StoredProcedure [dbo].[delete_jucator]    Script Date: 4/20/2018 8:28:33 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      <Author, , Name>
+-- Create Date: <Create Date, , >
+-- Description: <Description, , >
+-- =============================================
+ALTER PROCEDURE [dbo].[delete_jucator]
+(
+    -- Add the parameters for the stored procedure here
+    @id int
+)
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON
+
+    -- Insert statements for procedure here
+    delete from joc where id_jucator=@id 
+	delete from jucator where id_jucator=@id 
+END
+//...............................................................................
+/****** Object:  StoredProcedure [dbo].[edit_username]    Script Date: 4/20/2018 8:28:58 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      <Author, , Name>
+-- Create Date: <Create Date, , >
+-- Description: <Description, , >
+-- =============================================
+ALTER PROCEDURE [dbo].[edit_username]
+ (   -- Add the parameters for the stored procedure here
+    @username varchar(20),
+	@id int
+
+)
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON
+
+    -- Insert statements for procedure here
+
+	Update jucator set username=@username where id_jucator=@id
+    
+END
+
+//............................................................................................
+/****** Object:  StoredProcedure [dbo].[get_jucator]    Script Date: 4/20/2018 8:29:30 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      <Author, , Name>
+-- Create Date: <Create Date, , >
+-- Description: <Description, , >
+-- =============================================
+ALTER PROCEDURE [dbo].[get_jucator]
+(
+    -- Add the parameters for the stored procedure here
+    @id int 
+)
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON
+
+    -- Insert statements for procedure here
+    SELECT username, scor , data, Jucator.id_jucator 
+	from Joc
+	join Jucator on joc.id_jucator = Jucator.id_jucator
+	where @id=joc.id_jucator
+END
+//......................................................................................
+/****** Object:  StoredProcedure [dbo].[insereaza_jucator]    Script Date: 4/20/2018 8:30:10 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Oltean George
+-- Create Date: 
+-- Description: Creare cont 
+-- =============================================
+ALTER   PROCEDURE [dbo].[insereaza_jucator]
+   @username varchar(20),
+   @scor int
+AS
+BEGIN
+declare @id_jucator int;
+	insert into [dbo].[Jucator]([username])
+	values (@username);
+	select @id_jucator =id_jucator from Jucator where username=@username;
+    insert into [dbo].[Joc]([id_jucator],[scor],[data])
+	values (@id_jucator,@scor,GETDATE());
+					
+end
+//.......................................................................................
+/****** Object:  StoredProcedure [dbo].[lista_jucatori]    Script Date: 4/20/2018 8:30:35 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      <Author, , Name>
+-- Create Date: <Create Date, , >
+-- Description: <Description, , >
+-- =============================================
+ALTER PROCEDURE [dbo].[lista_jucatori]
+(
+	@filtru nvarchar(50) = ''
+)
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON
+
+    -- Insert statements for procedure here
+    SELECT username, scor , data, Jucator.id_jucator 
+	from Joc
+	join Jucator on joc.id_jucator = Jucator.id_jucator
+	where username like '%'+ @filtru +'%'
+END
+
