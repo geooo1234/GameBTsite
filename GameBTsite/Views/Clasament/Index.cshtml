@@ -1,0 +1,64 @@
+﻿@model IEnumerable<GameBTsite.ListaJucatori>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    function search() {
+        var element = document.getElementById('search');
+        location.href = "http://localhost/clasament/?filtru=" + element.value;
+    }
+    function sortareDupaData() {
+        location.href = "http://localhost/clasament/?orderBy=data";
+    }
+    function sortareDupaScor() {
+        location.href = "http://localhost/clasament/?orderBy=scor";
+    }
+</script>
+
+<h2>Index</h2>
+<input type="text" id="search"></input> 
+<button onclick="search()">Cauta</button>
+<button onclick="sortareDupaData()">Soratare Dupa Data</button>
+<button onclick="sortareDupaScor()">Soratare Dupa Scor</button>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.scor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.data)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_jucator)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.scor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.data)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.id_jucator)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {  id=item.id_jucator }) |
+            @Html.ActionLink("Delete", "Delete", new {  id=item.id_jucator })
+        </td>
+    </tr>
+}
+
+</table>
